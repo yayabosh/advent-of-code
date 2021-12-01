@@ -12,7 +12,7 @@ print(increases)
 # Part Two
 increases = 0
 for i in range(3, len(lines)):
-    if lines[i - 3] < lines[i]:
+    if lines[i] > lines[i - 3]:
         increases += 1
 
 print(increases)

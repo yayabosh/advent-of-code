@@ -13,7 +13,7 @@ for line in lines:
 
 print(position * depth)
 
-# Part Twot
+# Part Two
 position, depth, aim = 0, 0, 0
 for line in lines:
     if line[0] == 'forward':

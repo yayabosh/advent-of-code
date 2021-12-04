@@ -5,8 +5,7 @@ with open('input.txt') as f:
 # Returns a tuple of strings [gamma rate, epsilon rate] where each rate is represented in binary (base 2).
 def rates(nums):
     gamma_rate, epsilon_rate = "", ""
-    # 12 = number of digits in each number in nums
-    for i in range(0, 12):
+    for i in range(0, len(nums[0])):
         zero_count = 0
         for num in nums:
             zero_count += 1 if num[i] == '0' else 0

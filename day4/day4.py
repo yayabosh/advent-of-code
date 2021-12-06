@@ -9,19 +9,16 @@ with open('boards.txt') as f:
         line[:] = [n for n in line if n != '']
     for line in lines:
         line[:] = [int(n) for n in line]
-
-boards = []
-for i in range(0, len(lines), 5):
-    board = []
-    for j in range(i, i + 5):
-        board.append(lines[j])
-    boards.append(board)
+    boards = []
+    for i in range(0, len(lines), 5):
+        board = [lines[j] for j in range(i, i + 5)]
+        boards.append(board)
 
 # Part One
-def mark_number(num: int, board):
+def mark_number(num: int, board) -> None:
     for row in board:
-        for i in range(0, len(row)):
-            row[i] = -row[i] - 1 if row[i] == num else row[i]
+        for i, n in enumerate(row):
+            row[i] = -n - 1 if n == num else n
 
 def check_rows(board) -> bool:  
     for row in board:
@@ -35,9 +32,9 @@ def check_rows(board) -> bool:
     return False
 
 def check_cols(board) -> bool:
-    for col in range(0, len(board)):
+    for col, c in enumerate(board):
         winner = True
-        for row in range(0, len(board)):
+        for row, r in enumerate(board):
             if board[row][col] >= 0:
                 winner = False
                 break
@@ -47,7 +44,7 @@ def check_cols(board) -> bool:
 
 def check_diagonals(board) -> bool:
     first = True
-    for i in range(0, len(board)):
+    for i, n in enumerate(board):
         if board[i][i] >= 0:
             first = False
     second = True
@@ -61,15 +58,14 @@ def winner(board) -> bool:
 
 def play_bingo(numbers, boards):
     for num in numbers:
-        ret = None
         for board in boards:
             mark_number(num, board)
             if winner(board):
                 return [board, num]
 
-# bingo_result = play_bingo(numbers, boards)
-# winning_board = bingo_result[0]
-# winning_number = bingo_result[1]
+bingo_result = play_bingo(numbers, boards)
+winning_board = bingo_result[0]
+winning_number = bingo_result[1]
 
 def winning_score(number, board):
     sum_unmarked = 0
@@ -77,7 +73,7 @@ def winning_score(number, board):
         sum_unmarked += sum([n for n in line if n > 0])
     return sum_unmarked * number
 
-# print(winning_score(winning_number, winning_board))
+print(winning_score(winning_number, winning_board))
 
 # Part Two
 def play_bingo_till_end(numbers, boards):

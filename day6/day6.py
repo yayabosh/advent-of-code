@@ -1,12 +1,9 @@
-with open('input.txt') as f:
-    fishies = [int(timer) for timer in f.read().split(',')]
+with open('input.txt') as f: fishies = [int(timer) for timer in f.read().split(',')]
 
 # Part One
 map = {}
-for i in range(0, 9):
-    map[i] = 0
-for fish in fishies:
-    map[fish] += 1
+for i in range(0, 9): map[i] = 0
+for fish in fishies: map[fish] += 1
 
 def simulate(days) -> int:
     while days > 0:

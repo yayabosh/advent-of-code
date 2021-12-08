@@ -4,8 +4,7 @@ with open('input.txt') as f:
         split = line.strip().split(' -> ')
         lines.append([split[0].split(','), split[1].split(',')])
     for line in lines:
-        for point in line:
-            point[:] = [int(n) for n in point]
+        for point in line: point[:] = [int(n) for n in point]
 
 # Part One
 horizontal_vertical = list(filter(lambda line: line[0][0] == line[1][0] or line[0][1] == line[1][1], lines.copy()))
@@ -74,15 +73,11 @@ def mark_lines() -> None:
             delta_x = line[1][0] - line[0][0]
             delta_y = line[1][1] - line[0][1]
             if delta_x >= 0:
-                if delta_y >= 0:
-                    fill_bottom_right(line[0], delta_x)
-                else:
-                    fill_top_right(line[0], delta_x)
+                if delta_y >= 0: fill_bottom_right(line[0], delta_x)
+                else: fill_top_right(line[0], delta_x)
             else:
-                if delta_y >= 0:
-                    fill_bottom_left(line[0], abs(delta_x))
-                else:
-                    fill_top_left(line[0], abs(delta_x))
+                if delta_y >= 0: fill_bottom_left(line[0], abs(delta_x))
+                else: fill_top_left(line[0], abs(delta_x))
 
 mark_lines()
 print(count_dangerous())

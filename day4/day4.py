@@ -5,10 +5,8 @@ with open('numbers.txt') as f:
 with open('boards.txt') as f:
     lines = [line.strip().split(" ") for line in f]
     lines[:] = [line for line in lines if line != ['']]
-    for line in lines:
-        line[:] = [n for n in line if n != '']
-    for line in lines:
-        line[:] = [int(n) for n in line]
+    for line in lines: line[:] = [n for n in line if n != '']
+    for line in lines: line[:] = [int(n) for n in line]
     boards = []
     for i in range(0, len(lines), 5):
         board = [lines[j] for j in range(i, i + 5)]
@@ -17,8 +15,7 @@ with open('boards.txt') as f:
 # Part One
 def mark_number(num: int, board) -> None:
     for row in board:
-        for i, n in enumerate(row):
-            row[i] = -n - 1 if n == num else n
+        for i, n in enumerate(row): row[i] = -n - 1 if n == num else n
 
 def check_rows(board) -> bool:  
     for row in board:
@@ -27,8 +24,7 @@ def check_rows(board) -> bool:
             if num >= 0:
                 winner = False
                 break
-        if winner is True:
-            return True
+        if winner is True: return True
     return False
 
 def check_cols(board) -> bool:
@@ -38,19 +34,16 @@ def check_cols(board) -> bool:
             if board[row][col] >= 0:
                 winner = False
                 break
-        if winner is True:
-            return True
+        if winner is True: return True
     return False
 
 def check_diagonals(board) -> bool:
     first = True
     for i, n in enumerate(board):
-        if board[i][i] >= 0:
-            first = False
+        if board[i][i] >= 0: first = False
     second = True
     for i in range(len(board) - 1, -1, -1):
-        if board[i][i] >= 0:
-            second = False
+        if board[i][i] >= 0: second = False
     return first or second
 
 def winner(board) -> bool:
@@ -60,8 +53,7 @@ def play_bingo(numbers, boards):
     for num in numbers:
         for board in boards:
             mark_number(num, board)
-            if winner(board):
-                return [board, num]
+            if winner(board): return [board, num]
 
 bingo_result = play_bingo(numbers, boards)
 winning_board = bingo_result[0]
@@ -69,8 +61,7 @@ winning_number = bingo_result[1]
 
 def winning_score(number, board):
     sum_unmarked = 0
-    for line in board:
-        sum_unmarked += sum([n for n in line if n > 0])
+    for line in board: sum_unmarked += sum([n for n in line if n > 0])
     return sum_unmarked * number
 
 print(winning_score(winning_number, winning_board))
@@ -86,13 +77,11 @@ def play_bingo_till_end(numbers, boards):
                 ret[1] = num
                 ret[0].append(board)
                 w = True
-        if w == True:
-            return ret
+        if w == True: return ret
 
 while len(boards):
     bingo_result = play_bingo_till_end(numbers, boards)
-    for b in bingo_result[0]:
-        boards.remove(b)
+    for b in bingo_result[0]: boards.remove(b)
     numbers = numbers[numbers.index(bingo_result[1]) + 1:]
 
 print(winning_score(bingo_result[1], bingo_result[0][0]))

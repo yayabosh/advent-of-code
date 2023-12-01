@@ -1,4 +1,4 @@
-with open('day15/input.txt') as f:
+with open("day15/input.txt") as f:
     risk_levels = [[int(n) for n in line.strip()] for line in f]
 
 # Part One

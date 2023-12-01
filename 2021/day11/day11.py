@@ -1,18 +1,25 @@
-with open('input.txt') as f:
+with open("input.txt") as f:
     octopi = [[int(n) for n in line.strip()] for line in f]
 
 # Part One
 total_flashes = 0
+
+
 def flash(r, c):
     global total_flashes
     total_flashes += 1
     octopi[r][c] = -1
     for rr in [r - 1, r, r + 1]:
         for cc in [c - 1, c, c + 1]:
-            if 0 <= rr < len(octopi) and 0 <= cc < len(octopi[0]) and octopi[rr][cc] != -1:
+            if (
+                0 <= rr < len(octopi)
+                and 0 <= cc < len(octopi[0])
+                and octopi[rr][cc] != -1
+            ):
                 octopi[rr][cc] += 1
                 if octopi[rr][cc] == 10:
                     flash(rr, cc)
+
 
 for i in range(100):
     for r in range(len(octopi)):
@@ -29,6 +36,7 @@ for i in range(100):
 
 print(total_flashes)
 
+
 # Part Two
 def simultaneous(octopi):
     for i in range(len(octopi)):
@@ -36,6 +44,7 @@ def simultaneous(octopi):
             if octopi[i][j] != 0:
                 return False
     return True
+
 
 step = 0
 while not simultaneous(octopi):

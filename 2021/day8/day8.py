@@ -1,7 +1,7 @@
-with open('input.txt') as f:
+with open("input.txt") as f:
     entries = []
     for entry in f:
-        entry = entry.split('|')
+        entry = entry.split("|")
         for i in range(0, 2):
             entry[i] = entry[i].strip()
         entries.append(entry)
@@ -15,6 +15,6 @@ for entry in entries:
     output = entry[1].split()
     for combination in output:
         if len(combination) in segments:
-           counts[segments[len(combination)]] += 1
+            counts[segments[len(combination)]] += 1
 
 print(sum(counts.values()))

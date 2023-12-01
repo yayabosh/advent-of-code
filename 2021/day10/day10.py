@@ -1,9 +1,10 @@
-with open('day10/input.txt') as f:
+with open("day10/input.txt") as f:
     lines = [line.strip() for line in f]
 
 # Part One
-table = {')': 3, ']': 57, '}': 1197, '>': 25137}
-matching_chars = {'(': ')', '[': ']', '{': '}', '<': '>'}
+table = {")": 3, "]": 57, "}": 1197, ">": 25137}
+matching_chars = {"(": ")", "[": "]", "{": "}", "<": ">"}
+
 
 def corrupted(line):
     stack = []
@@ -16,6 +17,7 @@ def corrupted(line):
                 return c
     return None
 
+
 illegal_chars = []
 for line in lines:
     char = corrupted(line)
@@ -25,7 +27,8 @@ for line in lines:
 print(sum([table[char] for char in illegal_chars]))
 
 # Part Two
-table = {')': 1, ']': 2, '}': 3, '>': 4}
+table = {")": 1, "]": 2, "}": 3, ">": 4}
+
 
 def ignored(line):
     stack = []
@@ -38,11 +41,12 @@ def ignored(line):
                 return None
     return stack
 
+
 sequences = []
 for line in lines:
     sequence = ignored(line)
     if sequence is not None:
-        sequences.append(''.join(sequence[::-1]))
+        sequences.append("".join(sequence[::-1]))
 
 total_scores = []
 for sequence in sequences:

@@ -15,14 +15,15 @@ def check_adjacent_cells(row: int, col: int) -> bool:
     # 🤓 way of checking adjacent cells
     for dx in [-1, 0, 1]:
         for dy in [-1, 0, 1]:
+            r, c = row + dx, col + dy
             # Verify the current row is within the bounds of the schematic
-            if row + dx < 0 or row + dx >= len(engine_schematic):
+            if r < 0 or r >= len(engine_schematic):
                 continue
             # Verify the current column is within the bounds of the schematic
-            elif col + dy < 0 or col + dy >= len(engine_schematic[row + dx]):
+            elif c < 0 or c >= len(engine_schematic[r]):
                 continue
 
-            char = engine_schematic[row + dx][col + dy]
+            char = engine_schematic[r][c]
             # If the character is not a period or a digit, then it is a symbol
             if char != "." and not char.isdigit():
                 return True
@@ -65,17 +66,18 @@ def check_for_gear(row: int, col: int) -> (int, int):
     # 🤓 way of checking adjacent cells
     for dx in [-1, 0, 1]:
         for dy in [-1, 0, 1]:
+            r, c = row + dx, col + dy
             # Verify the current row is within the bounds of the schematic
-            if row + dx < 0 or row + dx >= len(engine_schematic):
+            if r < 0 or r >= len(engine_schematic):
                 continue
             # Verify the current column is within the bounds of the schematic
-            elif col + dy < 0 or col + dy >= len(engine_schematic[row + dx]):
+            elif c < 0 or c >= len(engine_schematic[r]):
                 continue
 
-            char = engine_schematic[row + dx][col + dy]
+            char = engine_schematic[r][c]
             # If the character is *, then we found a gear
             if char == "*":
-                return (row + dx, col + dy)
+                return (r, c)
 
     return (-1, -1)
 

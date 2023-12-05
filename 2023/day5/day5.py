@@ -16,8 +16,8 @@ seeds = list(map(int, seeds.split(":")[1].split()))
 
 # Each iteration of the loop is one conversion of the seed through the map
 for block in map_blocks:
-    # Get rid of the first line since it's just the map name
     ranges = []
+    # Get rid of the first line since it's just the map name
     for line in block.splitlines()[1:]:
         # Store the map ranges as (source_start, dest_start, range_length) tuples
         dest_start, source_start, range_length = map(int, line.split())
@@ -65,8 +65,8 @@ for i in range(0, len(seeds), 2):
     seed_ranges.append((range_start, range_end))
 
 for map_block in map_blocks:
-    # Get rid of the first line since it's just the map name
     ranges = []
+    # Get rid of the first line since it's just the map name
     for line in map_block.splitlines()[1:]:
         # Store the map ranges as (source_start, dest_start, range_length) tuples
         dest_start, source_start, range_length = map(int, line.split())
@@ -76,7 +76,7 @@ for map_block in map_blocks:
     queue = []
     # Process the seed ranges. We can stop once we finish this level of seed ranges.
     while seed_ranges:
-        start, end = seed_ranges.pop(0)
+        start, end = seed_ranges.pop()
         for source_start, dest_start, range_length in reversed(ranges):
             # We currently have something like:
             #   [source_start   source_end]

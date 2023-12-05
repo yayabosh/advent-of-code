@@ -1,10 +1,8 @@
 from collections import defaultdict
 
 
-engine_schematic = []
 with open("input.txt") as f:
-    for line in f:
-        engine_schematic.append(line.strip())
+    engine_schematic = [line.strip() for line in f]
 
 
 # Part One
@@ -16,17 +14,11 @@ def check_adjacent_cells(row: int, col: int) -> bool:
     for dx in [-1, 0, 1]:
         for dy in [-1, 0, 1]:
             r, c = row + dx, col + dy
-            # Verify the current row is within the bounds of the schematic
-            if r < 0 or r >= len(engine_schematic):
-                continue
-            # Verify the current column is within the bounds of the schematic
-            elif c < 0 or c >= len(engine_schematic[r]):
-                continue
-
-            char = engine_schematic[r][c]
-            # If the character is not a period or a digit, then it is a symbol
-            if char != "." and not char.isdigit():
-                return True
+            if 0 <= r < len(engine_schematic) and 0 <= c < len(engine_schematic[r]):
+                char = engine_schematic[r][c]
+                # If the character is not a period or a digit, then it is a symbol
+                if char != "." and not char.isdigit():
+                    return True
 
 
 sum = 0

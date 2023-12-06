@@ -34,7 +34,7 @@ for card, num_matches in enumerate(cards):
     # Add one copy for the original card
     num_copies[card] += 1
     # The current card has X matches, and C copies. For each of the C copies,
-    # we want to add 1 copy to the next X cards. In other words, we can add 
+    # we want to add 1 copy to the next X cards. In other words, we can add
     # C copies to the next X cards.
     # In this case, X = num_matches and C = num_copies[card].
     for i in range(1, num_matches + 1):

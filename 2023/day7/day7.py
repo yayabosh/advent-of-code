@@ -1,7 +1,6 @@
-from collections import defaultdict
+from collections import Counter
 from functools import cmp_to_key
 
-# Part One
 # Input is in the form of:
 # Hand Bid
 # 32T3K 765
@@ -12,27 +11,20 @@ with open("input.txt") as f:
         hand, bid = line.split()
         hands.append((hand, int(bid)))
 
-FIVE_OF_A_KIND = 6
-FOUR_OF_A_KIND = 5
-FULL_HOUSE = 4
-THREE_OF_A_KIND = 3
-TWO_PAIR = 2
-ONE_PAIR = 1
+# Hand type constants
 HIGH_CARD = 0
-
-
-# Returns a dictionary of the counts of each card in the hand
-def get_card_counts(hand: str) -> dict:
-    card_counts = defaultdict(int)
-    for card in hand:
-        card_counts[card] += 1
-
-    return card_counts
+ONE_PAIR = 1
+TWO_PAIR = 2
+THREE_OF_A_KIND = 3
+FULL_HOUSE = 4
+FOUR_OF_A_KIND = 5
+FIVE_OF_A_KIND = 6
 
 
 # Returns the type of hand as an integer (defined above)
 def get_hand_type(hand: str) -> int:
-    card_counts = get_card_counts(hand)
+    # Count the number of distinct cards in the hand
+    card_counts = Counter(hand)
     num_distinct_cards = len(card_counts)
 
     match num_distinct_cards:
@@ -43,10 +35,16 @@ def get_hand_type(hand: str) -> int:
 
         # Check for four of a kind or full house
         case 2:
+            # If there's a Joker, we have one card repeated X times and a Joker
+            # repeated 5 - X times. But the Joker can be any card, so we have
+            # five of a kind
+            if "J" in card_counts:
+                return FIVE_OF_A_KIND
+
             # Only two keys means either one card is repeated 4 times and the other
             # is repeated once or one card is repeated 3 times and the other is
             # repeated twice
-            if 4 in card_counts.values():
+            elif 4 in card_counts.values():
                 return FOUR_OF_A_KIND
             else:
                 return FULL_HOUSE
@@ -57,26 +55,62 @@ def get_hand_type(hand: str) -> int:
             # two are repeated once or two cards are repeated twice and the other
             # is repeated once
             if 3 in card_counts.values():
+                # We have one card repeated 3 times, another card repeated once,
+                # and a Joker repeated once. But the Joker can be any card,
+                # so we have four of a kind
+                if "J" in card_counts:
+                    return FOUR_OF_A_KIND
+
                 return THREE_OF_A_KIND
             else:
+                # We have two cards repeated twice and once card repeated once.
+                if "J" in card_counts:
+                    # Case 1: Joker is the card repeated once. The Joker becomes
+                    # one of the other two cards repeated twice, so we have a
+                    # full house
+                    if card_counts["J"] == 1:
+                        return FULL_HOUSE
+                    # Case 2: Joker is one of the cards repeated twice. The Joker
+                    # becomes the card repeated twice, so we have a four of a kind
+                    elif card_counts["J"] == 2:
+                        return FOUR_OF_A_KIND
+
                 return TWO_PAIR
 
         # Check for one pair
         case 4:
+            # We have one card repeated twice and the other three are repeated once.
+            if "J" in card_counts:
+                # Case 1: Joker is one of the cards repeated once. The Joker becomes
+                # the card repeated twice, so we have a three of a kind
+
+                # Case 2: Joker is one of the cards repeated twice. The Joker becomes
+                # a card repeated once, so we have a three of a kind
+
+                # In either case, we have a three of a kind
+                return THREE_OF_A_KIND
+
             # Four keys means one card is repeated twice and the other three are
             # repeated once
             return ONE_PAIR
 
         # Check for high card. This is the only case left
         case _:
+            if "J" in card_counts:
+                # We have a Joker and four distinct cards. The Joker can be any
+                # card, so we have a one pair
+                return ONE_PAIR
+
             return HIGH_CARD
 
 
+# Now we have Jokers in Part Two.
+# The "J" card represents a Joker and can be any card when determining the hand
+# type, but for breaking ties within a hand type it is the lowest card.
 CARD_STRENGTH = {
     "A": 14,
     "K": 13,
     "Q": 12,
-    "J": 11,
     "T": 10,
     "9": 9,
     "8": 8,
@@ -86,11 +120,12 @@ CARD_STRENGTH = {
     "4": 4,
     "3": 3,
     "2": 2,
+    "J": 1,
 }
 
 
 # Returns the higher hand of the two as an integer
-# 1 if hand1 is higher, -1 if hand2 is higher, 0 if they are equal
+# 1 if hand1 is higher, -1 if hand2 is lower, 0 if they are equal
 def compare_hands(hand_bid_1: str, hand_bid_2: str) -> int:
     hand1, bid1 = hand_bid_1
     hand2, bid2 = hand_bid_2
@@ -119,12 +154,11 @@ for hand_type in hand_types:
     hand_type.sort(key=cmp_to_key(compare_hands))
 
 total_winnings = 0
-i = 1
+rank = 1
 for hand_type in hand_types:
     for hand, bid in hand_type:
-        rank = i
         winnings = rank * bid
         total_winnings += winnings
-        i += 1
+        rank += 1
 
 print(total_winnings)

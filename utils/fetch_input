@@ -1,0 +1,48 @@
+#!/usr/bin/env fish
+
+# Default values
+set default_year 2024
+set default_day 1
+
+# Initialize variables
+set year $default_year
+set day $default_day
+
+# Parse command-line arguments
+# TODO: Implement this
+
+echo "Usage: ./fetch_input <day (default: 1)> <year (default: 2024)>"
+echo "Example: ./fetch_input 1 2024 -- fetches Dec. 1, 2024"
+echo "Example: ./fetch_input        -- fetches Dec. 1, 2024"
+echo "Example: ./fetch_input 5      -- fetches Dec. 5, 2024"
+
+# Load session token
+set session_file (dirname (status -f))'/secrets/session'
+if not test -f $session_file
+    echo "Session file not found: $session_file"
+    exit 1
+end
+
+set session_token (cat $session_file)
+
+# Construct URL and output file path
+set url "https://adventofcode.com/$year/day/$day/input"
+set day_str (printf "%02d" $day)  # Format day as two digits (e.g., 01, 02)
+set output_dir "../$year/day$day_str"
+set output_file "$output_dir/input.txt"
+
+# Ensure the output directory exists
+mkdir -p $output_dir
+
+# Fetch input data
+curl -o $output_file $url \
+    -H "cookie: session=$session_token" \
+    -H "user-agent: Mozilla/5.0"
+
+# Check for errors
+if test $status -ne 0
+    echo "Failed to fetch input data from $url"
+    exit 1
+end
+
+echo "Input data saved to $output_file"

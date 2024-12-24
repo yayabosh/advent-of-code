@@ -4,12 +4,19 @@
 set default_year 2024
 set default_day 1
 
-# Initialize variables
-set year $default_year
-set day $default_day
-
 # Parse command-line arguments
-# TODO: Implement this
+set day $argv[1]
+set year $argv[2]
+
+if not set -q day
+    set day $default_day
+end
+if not set -q year
+    set year $default_year
+end
+
+echo $year
+echo $day
 
 echo "Usage: ./fetch_input <day (default: 1)> <year (default: 2024)>"
 echo "Example: ./fetch_input 1 2024 -- fetches Dec. 1, 2024"

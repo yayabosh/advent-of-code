@@ -1,17 +1,17 @@
 #!/usr/bin/env fish
 
 # Default values
-set default_year 2024
+set default_year 2025
 set default_day 1
 
 # Parse command-line arguments
 set day $argv[1]
 set year $argv[2]
 
-if not set -q day
+if test -z "$day"
     set day $default_day
 end
-if not set -q year
+if test -z "$year"
     set year $default_year
 end
 

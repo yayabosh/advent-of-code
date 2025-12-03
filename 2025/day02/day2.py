@@ -6,7 +6,6 @@ with open("./input.txt") as f:
     ranges = [r.split("-") for r in ranges]
     ranges = [(int(a[0]), int(a[1])) for a in ranges]
 
-
 # Part One
 def check_pt1(r):
     sum = 0
@@ -35,6 +34,8 @@ for n in range(1, 16):
                 factors[n].add(n // j)
 
 def sum_nums_of_length(factor: int, length: int, st, end, visited):
+    if length < 2:
+        return 0
     sum = 0
     for n in range(10 ** (factor - 1), 10 ** factor):  # keep fixed num of digits
         seq = int(str(n) * (length // factor))  # make a seq of length length with repeated digits
@@ -49,7 +50,7 @@ def check_pt2(r):
     sum = 0
     st, end = r
     visited = set()
-    for leng in range(len(str(st)), len(str(end)) + 1):
+    for leng in range(max(2, len(str(st))), len(str(end)) + 1):
         for f in factors[leng]:
             sum += sum_nums_of_length(f, leng, st, end, visited)
     return sum

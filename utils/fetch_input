@@ -35,7 +35,7 @@ set session_token (cat $session_file)
 # Construct URL and output file path
 set url "https://adventofcode.com/$year/day/$day/input"
 set day_str (printf "%02d" $day)  # Format day as two digits (e.g., 01, 02)
-set output_dir "../$year/day$day_str"
+set output_dir "$year/day$day_str"
 set output_file "$output_dir/input.txt"
 
 # Ensure the output directory exists

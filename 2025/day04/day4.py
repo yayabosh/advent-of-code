@@ -3,9 +3,6 @@ with open("./input.txt") as f:
 
 
 # Part One
-accessible_rolls = 0
-
-
 def surrounding_rolls(i, j):
     surrounding_rolls = []
     for dx in [-1, 0, 1]:
@@ -20,7 +17,6 @@ def surrounding_rolls(i, j):
 
 
 accessible_rolls = 0
-q = []
 for i in range(len(grid)):
     for j in range(len(grid[i])):
         if grid[i][j] == "@" and len(surrounding_rolls(i, j)) < 4:

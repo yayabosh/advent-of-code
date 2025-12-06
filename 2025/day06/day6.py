@@ -32,7 +32,7 @@ with open("./input.txt") as f:
 
 column_ends = [len(lines[0])]
 c = len(lines[0]) - 1
-while c > 0:
+while c >= 0:
     # check if there's a value in the column
     for r in range(len(lines)):
         if lines[r][c] != " ":
@@ -41,23 +41,20 @@ while c > 0:
     else:
         column_ends.insert(0, c)
         c -= 1
-column_ends.insert(0, 0)  # dummy to make it ez
 
 matrix = []
 for c_i, c_e in enumerate(column_ends):
     transposed = []
     c = c_e - 1
-    while c >= column_ends[c_i - 1]:
+    while c > column_ends[c_i - 1]:
         n = 0
         for i in range(len(lines)):
             if lines[i][c] != " ":
                 n *= 10
                 n += int(lines[i][c])
-        if n > 0:
-            transposed.append(n)
+        transposed.append(n)
         c -= 1
     matrix.append(transposed)
-matrix.pop(0)  # pop the dummy
 
 total = 0
 for op, nums in zip(ops, matrix):

@@ -9,6 +9,13 @@ with open("./input.txt") as f:
 
 
 # Part One
+<<<<<<< HEAD
+=======
+# merge the overlapping ranges
+# binary search the ranges for the id
+
+
+>>>>>>> 50573ae ([2025] day 05 ⭐️⭐️)
 def merge_overlapping_ranges(ranges):
     if not ranges:
         return ranges
@@ -46,14 +53,13 @@ def search(id: int) -> int:
 
 
 count = 0
-count_fresh = 0
 for id in ids:
-    # in or out?
-    if search(id):
+    if search(id):  # in or out?
         count += 1
 
 print(count)
 
 # Part Two
+# sum the non-overlapping ranges
 count_all_ranges = sum(r[1] - r[0] + 1 for r in ranges)
 print(count_all_ranges)

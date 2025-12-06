@@ -9,13 +9,6 @@ with open("./input.txt") as f:
 
 
 # Part One
-<<<<<<< HEAD
-=======
-# merge the overlapping ranges
-# binary search the ranges for the id
-
-
->>>>>>> 50573ae ([2025] day 05 ⭐️⭐️)
 def merge_overlapping_ranges(ranges):
     if not ranges:
         return ranges

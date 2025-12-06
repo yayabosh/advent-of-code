@@ -44,6 +44,8 @@ while c >= 0:
 
 matrix = []
 for c_i, c_e in enumerate(column_ends):
+    if c_e == 0:
+        continue
     transposed = []
     c = c_e - 1
     while c > column_ends[c_i - 1]:
